@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D5BSVYQLCN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D5BSVYQLCN');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bryan's website</title>
+    <style>
+        body {
+            font-family: georgia, 'times new roman', times, serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: #333;
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 20px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .warning {
+            color: red;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .hidden {
+            position: absolute;
+            left: -10000px;
+        }
+    </style>
+    <script>
+        async function checkKeyword() {
+            const keyword = document.getElementById('keyword').value.trim().toLowerCase();
+            const validKeywords = ['photography', 'vancouver', 'pho recipe', 'stories'];
+
+            if (validKeywords.includes(keyword)) {
+                const formattedKeyword = keyword.replace(/\s+/g, '').replace(/[^a-z0-9-]/g, '');
+                window.location.href = `https://${formattedKeyword}.btran.ca`;
+            } else {
+                try {
+                    const response = await fetch('/validate-keyword', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ keyword })
+                    });
+                    const result = await response.json();
+
+                    if (result.valid) {
+                        window.location.href = `https://${keyword}.btran.ca`;
+                    } else {
+                        alert('incorrect keyword. please try again. you can view the page source code for some public hints.');
+                    }
+                } catch (error) {
+                    alert('incorrect keyword. please try again. you can view the page source code for some public hints.');
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>bryan tran</h1>
+    <p>i am currently not open to work. thanks to all my clients and friends over the years for all the fun and enrichment. let's meet up on my world tour!</p>
+    
+    <label for="keyword" class="hidden">enter the access keyword</label>
+    
+    <input type="text" id="keyword" placeholder="enter keyword" aria-label="enter the access keyword">
+    
+    <button onclick="checkKeyword()">submit</button>
+    
+    <p class="warning">modern security warning: unless it's invoice-related or hosted on a microservice, redirects aren't secure. they're plain text pages that aren't https encrypted. contact me if you wish to establish a secure line.</p>
+
+    <p><a href="about.html">what the hell is this website?</a></p>
+</body>
+</html>
